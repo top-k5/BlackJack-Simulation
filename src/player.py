@@ -44,7 +44,7 @@ class Player:
         self.chip = Chip(initial_chip)
         self.done = False         # ターン終了フラグ
         self.hit_flag = False     # 既にヒットしたかどうか
-        self.is_human = True      # True: 人間プレイヤー, False: 自動プレイヤー
+        self.is_human = False      # True: 人間プレイヤー, False: 自動プレイヤー
 
     def init_player(self):
         self.hand = Hand()
