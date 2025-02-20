@@ -1,5 +1,5 @@
 from hand import Hand
-from config import INITIAL_CHIP
+from config import INITIAL_CHIP, IS_HUMAN
 
 class Chip:
     """
@@ -44,7 +44,7 @@ class Player:
         self.chip = Chip(initial_chip)
         self.done = False         # ターン終了フラグ
         self.hit_flag = False     # 既にヒットしたかどうか
-        self.is_human = False      # True: 人間プレイヤー, False: 自動プレイヤー
+        self.is_human = IS_HUMAN      # True: 人間プレイヤー, False: 自動プレイヤー
 
     def init_player(self):
         self.hand = Hand()
