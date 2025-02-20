@@ -1,6 +1,6 @@
 from deck import Deck
 from player import Player, Dealer
-from ai import AI
+from strategy import Strategy, dealer_upcard_value
 from config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER
 
 class Game:
@@ -51,9 +51,13 @@ class Game:
             if self.player.is_human:
                 action = input("Hit(h) or Stand(s) or Double down(d) or Surrender(r): ")
             else:
-                # AIの場合
-                action = AI().select_random3(hand_value=self.player.hand.calc_final_point(),
-                                             n=len(self.player.hand.hand))
+                # ベーシックストラテジー
+                action = Strategy().select_basic_strategy(player_total = player.hand.calc_final_point(), 
+                                                          dealer_up = dealer_upcard_value(self.dealer.hand.hand[0]),　 
+                                                          is_soft_hand = self.player.hand.is_soft_hand,
+                                                          can_surrender=True, 
+                                                          first_action = (len(self.player.hand.hand) == 2 and not self.player.hit_flag)
+                                                         )
             self.player_step(action)
 
     def player_step(self, action):
