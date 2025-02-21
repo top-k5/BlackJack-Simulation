@@ -105,7 +105,7 @@ class Game:
                 print("Surrender が選択されました")
         else:
             if self.message_on:
-                print("正しい選択肢を選んでください")
+                print(f"正しい選択肢を選んでください:{action}")
 
     def show_card(self):
         if self.message_on:
@@ -115,6 +115,9 @@ class Game:
             print(f"Dealer : {self.dealer.hand.hand[0]}, ?")
 
     def dealer_turn(self):
+        if len(self.player.hand.hand) == 2 and self.player.hand.calc_final_point() == 21: # ブラックジャックのチャンス
+            self.open_dealer()
+            return
         if self.judgment == -1:
             return
         self.open_dealer()

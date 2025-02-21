@@ -1,6 +1,8 @@
 from src.game import Game
 
 def main():
+    global temp_debug
+    temp_debug = False
     game = Game()
     while game.game_mode == 1:
         game.reset_game()   # 各種リセット

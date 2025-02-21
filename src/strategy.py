@@ -92,9 +92,11 @@ class Strategy:
                     return 's'
                 else:
                     return 'h'
-            elif player_total == 19:  # A8, A9
+            elif player_total >= 19:  # A8, A9
                 return 's'
-
+            else:
+                return 'error'
+            
         # =======================
         # ハードハンドの処理
         # =======================
