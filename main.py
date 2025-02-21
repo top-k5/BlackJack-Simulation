@@ -1,5 +1,5 @@
 from src.game import Game
-from src.config import INITIAL_CHIP, MESSAGE_ON
+from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -8,7 +8,8 @@ def main():
     max_balance_time_list = [] # 各回の最大残高時のゲーム回数を格納
     game_time_list = [] # 各回のゲーム回数を格納
 
-    for i in range(1000): 
+    print(f'ゲーム回数: {ITERATION_NUM}')
+    for i in range(ITERATION_NUM): 
         game = Game()
         balance_history = [INITIAL_CHIP]
         while game.game_mode == 1:
@@ -68,12 +69,15 @@ def main():
     plt.savefig('result/game_time_hist.jpg')
     plt.close()
 
-    # 利確ポイントを分析
+    # 利確ポイントを分析し、txtファイルで出力
     for profit in np.arange(0.1, 3.0, 0.2): # 収益率0.1 ~ 3.0で利確する場合
         # 最大残高の収益率がprofitを超える割合
         max_profit_list = [max_profit / INITIAL_CHIP - 1 for max_profit in max_balance_list]
         ratio = len([i for i in max_profit_list if i > profit]) / len(max_profit_list)
         print(f"収益率{profit:3.0%}以上の割合: {ratio:3.0%}")
+        with open(f'result/profit_analysis_{ITERATION_NUM}.txt', 'a') as f:
+            f.write(f"収益率{profit:3.0%}以上の割合: {ratio:3.0%}\n")
+
 
 if __name__ == '__main__':
     main()
