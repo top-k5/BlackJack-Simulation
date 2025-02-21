@@ -4,10 +4,14 @@
 ## 結果の一部
 例えば結果こんな感じ:
 
-![結果画像1](result/balance_history_0.jpg)
+### 1回のブラックジャックプレイ中の残高推移
+![結果画像1](result/balance_history_0.jpg)  
 ![結果画像1](result/balance_history_1.jpg)
+
+### 各回の瞬間最高収益率
 ![結果画像2](result/max_profit_hist.jpg)
 
+### 瞬間最高収益率の観点から利確ラインを検討
 ```ini
 収益率10%以上の割合: 88%
 収益率30%以上の割合: 74%
