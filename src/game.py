@@ -52,7 +52,7 @@ class Game:
                 action = input("Hit(h) or Stand(s) or Double down(d) or Surrender(r): ")
             else:
                 # ベーシックストラテジー
-                action = Strategy().select_basic_strategy(player_total = player.hand.calc_final_point(), 
+                action = Strategy().select_basic_strategy(player_total = self.player.hand.calc_final_point(), 
                                                           dealer_up = dealer_upcard_value(self.dealer.hand.hand[0]), 
                                                           is_soft_hand = self.player.hand.is_soft_hand,
                                                           can_surrender=True, 
