@@ -1,7 +1,7 @@
 from src.deck import Deck
 from src.player import Player, Dealer
-from src.strategy import Strategy, dealer_upcard_value
-from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER
+from src.strategy import Strategy, dealer_upcard_value, get_bet_amount
+from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER, BET_STRATEGY
 
 class Game:
     def __init__(self):
@@ -26,8 +26,9 @@ class Game:
         self.dealer.init_dealer()
         self.game_count += 1
 
-    def bet(self, bet):
-        self.player.chip.bet_chip(bet)
+    def bet(self):
+        self.player.chip.bet = get_bet_amount(self.player.chip.balance, self.player.chip.bet, self.judgment, BET_STRATEGY)
+        self.player.chip.bet_chip(self.player.chip.bet)
         if self.message_on:
             print(f"${self.player.chip.bet} 賭けました")
             print(f"残りは ${self.player.chip.balance}")

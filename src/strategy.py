@@ -1,4 +1,5 @@
 import random
+from src.config import INITIAL_BET
 
 def dealer_upcard_value(card):
     """
@@ -133,3 +134,16 @@ class Strategy:
                     return 'h'
             else:
                 return 's'
+            
+def get_bet_amount(balance, last_bet, last_judge, bet_strategy):
+    """
+    引数のベット戦略に応じて次のベット額を返す。
+    """
+    if bet_strategy == 'mg':
+        if last_judge == -1:
+            return min(last_bet*2, balance) # 負けたターンの次はベットを2倍にする(残高不足なら全額)
+        elif last_judge == 1:
+            return INITIAL_BET # 買ったターンの次は初期ベット額
+        else:
+            return min(last_bet, balance) # 引き分けor初回の場合は前回と同じ額をベットする
+           

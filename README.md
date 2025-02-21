@@ -2,4 +2,6 @@
 Validate some strategies of BlackJack.
 
 # Todo
-・プレイヤーが初手で21だったときに、ディーラーは追加で引かない
+・毎ターンの残高を保持してプロット
+・Bet戦略の実装
+・Strategyはクラスである必要ある？

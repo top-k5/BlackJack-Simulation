@@ -1,5 +1,5 @@
 from src.hand import Hand
-from src.config import INITIAL_CHIP, IS_HUMAN
+from src.config import INITIAL_CHIP, IS_HUMAN, INITIAL_BET
 
 class Chip:
     """
@@ -7,7 +7,7 @@ class Chip:
     """
     def __init__(self, initial_chip=INITIAL_CHIP):
         self.balance = initial_chip
-        self.bet = 0
+        self.bet = INITIAL_BET
 
     def bet_chip(self, bet):
         """

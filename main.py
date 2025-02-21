@@ -6,7 +6,7 @@ def main():
     game = Game()
     while game.game_mode == 1:
         game.reset_game()   # 各種リセット
-        game.bet(bet=100)   # 賭け金を設定
+        game.bet()   # 賭け金を設定
         game.deal()         # カードを配る
         game.player_turn()  # プレイヤーのターン
         game.dealer_turn()  # ディーラーのターン
