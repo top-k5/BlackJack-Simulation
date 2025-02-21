@@ -1,7 +1,7 @@
 from src.deck import Deck
 from src.player import Player, Dealer
 from src.strategy import Strategy, dealer_upcard_value, get_bet_amount
-from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER, BET_STRATEGY
+from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER, BET_STRATEGY, MESSAGE_ON
 
 class Game:
     def __init__(self):
@@ -11,7 +11,7 @@ class Game:
         self.dealer = Dealer()
         self.judgment = 0    # 勝敗判定（1: 勝ち, -1: 負け, 0: 引分）
         self.game_count = 0
-        self.message_on = True  # コンソールにメッセージを表示するか否か
+        self.message_on = MESSAGE_ON  # コンソールにメッセージを表示するか否か
         self.start()
 
     def start(self):
@@ -89,7 +89,8 @@ class Game:
                     if self.message_on:
                         print("Player BUST")
             else:
-                print("チップが足りないためHitします")
+                if self.message_on:
+                    print("チップが足りないためHitします")
                 self.player.hit(card)
                 self.show_card()
                 if self.player.hand.calc_final_point() == 21:
@@ -195,8 +196,9 @@ class Game:
                     break
                 else:
                     print("y/nを入力してください")
-        print(f"残りカード枚数は {self.deck.count_cards()}")
-        print("")
+        if self.message_on:
+            print(f"残りカード枚数は {self.deck.count_cards()}")
+            print("")
 
     def check_deck(self):
         if self.deck.count_cards() < NUM_PLAYER * 10 + 5:
