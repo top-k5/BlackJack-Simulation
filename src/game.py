@@ -1,7 +1,7 @@
-from deck import Deck
-from player import Player, Dealer
-from strategy import Strategy, dealer_upcard_value
-from config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER
+from src.deck import Deck
+from src.player import Player, Dealer
+from src.strategy import Strategy, dealer_upcard_value
+from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER
 
 class Game:
     def __init__(self):
@@ -53,7 +53,7 @@ class Game:
             else:
                 # ベーシックストラテジー
                 action = Strategy().select_basic_strategy(player_total = player.hand.calc_final_point(), 
-                                                          dealer_up = dealer_upcard_value(self.dealer.hand.hand[0]),　 
+                                                          dealer_up = dealer_upcard_value(self.dealer.hand.hand[0]), 
                                                           is_soft_hand = self.player.hand.is_soft_hand,
                                                           can_surrender=True, 
                                                           first_action = (len(self.player.hand.hand) == 2 and not self.player.hit_flag)
@@ -150,6 +150,8 @@ class Game:
             print("")
             if self.judgment == 1:
                 print("Playerの勝ち")
+                if len(self.player.hand.hand) == 2 and self.player.hand.calc_final_point() == 21: # ブラックジャック
+                    print("Black Jack!")
             elif self.judgment == -1:
                 print("Playerの負け")
             elif self.judgment == 0:
@@ -159,7 +161,10 @@ class Game:
     def pay_chip(self):
         previous_chip = self.player.chip.balance
         if self.judgment == 1:  # 勝ちの場合
-            self.player.chip.pay_chip_win()
+            if len(self.player.hand.hand) == 2 and self.player.hand.calc_final_point() == 21: # ブラックジャック
+                self.player.chip.pay_chip_blackjack()
+            else:
+                self.player.chip.pay_chip_win()
         elif self.judgment == -1:  # 負けの場合
             self.player.chip.pay_chip_lose()
         elif self.judgment == 0:  # 引き分けの場合
@@ -191,7 +196,6 @@ class Game:
 
     def check_deck(self):
         if self.deck.count_cards() < NUM_PLAYER * 10 + 5:
-            from deck import Deck
             self.deck = Deck()
             if self.message_on:
                 print("デッキを初期化しました")

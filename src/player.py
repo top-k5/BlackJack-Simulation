@@ -1,5 +1,5 @@
-from hand import Hand
-from config import INITIAL_CHIP, IS_HUMAN
+from src.hand import Hand
+from src.config import INITIAL_CHIP, IS_HUMAN
 
 class Chip:
     """
@@ -22,9 +22,16 @@ class Chip:
         """
         self.balance += self.bet * 2
 
+    def pay_chip_blackjack(self):
+        """
+        ブラックジャック時、ベット額の2.5倍を支払う
+        """
+        self.balance += int(self.bet * 2.5)
+
+
     def pay_chip_lose(self):
         """
-        敗北時は特に処理をしない（既にベット分は差し引かれている）
+        敗北時は特に処理をしない
         """
         pass
 

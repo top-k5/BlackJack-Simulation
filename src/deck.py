@@ -1,7 +1,7 @@
 import random
 from copy import deepcopy
-from card import Card
-from config import NUM_DECK
+from src.card import Card
+from src.config import NUM_DECK
 
 class Deck:
     """
