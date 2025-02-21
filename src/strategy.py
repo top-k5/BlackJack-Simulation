@@ -18,7 +18,7 @@ def dealer_upcard_value(card):
       
 class Strategy:
     """
-    AIクラス（簡易なランダム選択による行動決定）
+
     """
 
     def select_basic_strategy(self, 
