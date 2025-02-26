@@ -7,7 +7,10 @@ MESSAGE_ON = False    # メッセージ表示
 
 BET_STRATEGY = 'mg'     # ベット戦略
 INITIAL_BET = 10
+ITITIAL_TIP_LIST = [1000, 1500, 2000, 3000, 4000, 5000]
 
-ITERATION_NUM = 10  # ゲーム回数
+ITERATION_NUM = 100  # ゲーム回数
 
 FIRST_MC_LIST = [5,10,15]
+
+TARGET_PROFIT = 1000 # 目標利益
