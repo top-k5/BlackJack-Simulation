@@ -8,4 +8,6 @@ MESSAGE_ON = False    # メッセージ表示
 BET_STRATEGY = 'mg'     # ベット戦略
 INITIAL_BET = 10
 
-ITERATION_NUM = 10000  # ゲーム回数
+ITERATION_NUM = 10  # ゲーム回数
+
+FIRST_MC_LIST = [5,10,15]

@@ -1,5 +1,5 @@
 from src.game import Game
-from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM
+from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM, BET_STRATEGY
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -40,14 +40,14 @@ def main():
             plt.xlabel('Game Count')
             plt.ylabel('Balance')
             plt.title('Balance Transition')
-            plt.savefig(f'result/balance_history_{i}.jpg')
+            plt.savefig(f'result/balance_history_{BET_STRATEGY}_{i}.jpg')
             plt.close()
     
     # 最大収益率を計算
     max_profit_list = [max_profit / INITIAL_CHIP - 1 for max_profit in max_balance_list]
     
     # 結果をpickleで保存
-    with open(f'result/result_{ITERATION_NUM}.pkl', 'wb') as f:
+    with open(f'result/result_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb') as f:
         pickle.dump([max_balance_list, max_balance_time_list, game_time_list, max_profit_list], f)
         
     # 最大収益率の分布をプロット
@@ -55,7 +55,7 @@ def main():
     plt.xlabel('Profit Rate')
     plt.ylabel('Frequency')
     plt.title('Max Profit Distribution')
-    plt.savefig('result/max_profit_hist.jpg')
+    plt.savefig('result/max_profit_hist_{BET_STRATEGY}.jpg')
     plt.close()
 
     # 最大残高時のゲーム回数の分布をプロット
@@ -63,7 +63,7 @@ def main():
     plt.xlabel('Game Count')
     plt.ylabel('Frequency')
     plt.title('Game Count at Max Balance')
-    plt.savefig('result/max_profit_time_hist.jpg')
+    plt.savefig('result/max_profit_time_hist_{BET_STRATEGY}.jpg')
     plt.close()
 
     # ゲーム回数の分布をプロット
@@ -71,7 +71,7 @@ def main():
     plt.xlabel('Game Count')
     plt.ylabel('Frequency')
     plt.title('Game Count Distribution')
-    plt.savefig('result/game_time_hist.jpg')
+    plt.savefig('result/game_time_hist_{BET_STRATEGY}.jpg')
     plt.close()
 
     # 利確ポイントを分析し、txtファイルで出力
@@ -80,7 +80,7 @@ def main():
         max_profit_list = [max_profit / INITIAL_CHIP - 1 for max_profit in max_balance_list]
         ratio = len([i for i in max_profit_list if i > profit]) / len(max_profit_list)
         print(f"収益率{profit:3.0%}以上の割合: {ratio:3.0%}")
-        with open(f'result/profit_analysis_{ITERATION_NUM}.txt', 'a') as f:
+        with open(f'result/profit_analysis_{BET_STRATEGY}_{ITERATION_NUM}.txt', 'a') as f:
             f.write(f"収益率{profit:3.0%}以上の割合: {ratio:3.0%}\n")
 
 

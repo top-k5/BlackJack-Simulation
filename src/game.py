@@ -9,7 +9,7 @@ class Game:
         self.deck = Deck()
         self.player = Player(INITIAL_CHIP)
         self.dealer = Dealer()
-        self.judgment = 0    # 勝敗判定（1: 勝ち, -1: 負け, 0: 引分）
+        self.judgment = None    # 勝敗判定（1: 勝ち, -1: 負け, 0: 引分）
         self.game_count = 0
         self.message_on = MESSAGE_ON  # コンソールにメッセージを表示するか否か
         self.start()

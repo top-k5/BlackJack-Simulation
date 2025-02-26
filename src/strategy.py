@@ -1,5 +1,5 @@
 import random
-from src.config import INITIAL_BET
+from src.config import INITIAL_BET, FIRST_MC_LIST
 
 def dealer_upcard_value(card):
     """
@@ -25,7 +25,7 @@ class Strategy:
                               player_total, 
                               dealer_up, 
                               is_soft_hand,
-                              can_surrender=True, 
+                              can_surrender=False, 
                               first_action=True):
         """
         ベーシックストラテジーに基づいて行動を選択する。
@@ -144,6 +144,24 @@ def get_bet_amount(balance, last_bet, last_judge, bet_strategy):
             return min(last_bet*2, balance) # 負けたターンの次はベットを2倍にする(残高不足なら全額)
         elif last_judge == 1:
             return INITIAL_BET # 買ったターンの次は初期ベット額
+        elif last_judge == None:
+            return INITIAL_BET
         else:
-            return min(last_bet, balance) # 引き分けor初回の場合は前回と同じ額をベットする
-           
+            return min(last_bet, balance) # 引き分けの場合は前回と同じ額をベットする
+    
+    mc_list = FIRST_MC_LIST
+    if bet_strategy == 'mc_2': # 2倍配当monte carlo法
+        if last_judge == -1:
+            mc_list.append(mc_list[0]+mc_list[-1])
+            return min(mc_list[0] + mc_list[-1], balance)
+        elif last_judge == 1:
+            mc_list = mc_list[1:-1]
+            if len(mc_list) <= 1:
+                mc_list = FIRST_MC_LIST
+            return min(mc_list[0] + mc_list[-1], balance)
+        elif last_judge == None:
+            return INITIAL_BET
+            
+        else:
+            return min(last_bet, balance)
+        
