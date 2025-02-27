@@ -10,6 +10,8 @@ class Game:
         self.player = Player(initial_chip)
         self.dealer = Dealer()
         self.judgment = None    # 勝敗判定（1: 勝ち, -1: 負け, 0: 引分）
+        self.win_count = 0
+        self.lose_count = 0
         self.game_count = 0
         self.message_on = MESSAGE_ON  # コンソールにメッセージを表示するか否か
         self.start()
@@ -142,8 +144,10 @@ class Game:
         if self.judgment == 0:
             if self.player.hand.calc_final_point() > self.dealer.hand.calc_final_point():
                 self.judgment = 1
+                self.win_count += 1
             elif self.player.hand.calc_final_point() < self.dealer.hand.calc_final_point():
                 self.judgment = -1
+                self.lose_count += 1
             else:
                 self.judgment = 0
 

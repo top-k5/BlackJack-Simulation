@@ -8,9 +8,13 @@ import pickle
 def main():
     print(f'ゲーム回数: {ITERATION_NUM}')
 
-    # 還元率(総リターン/総ベット)を計算
+    # 還元率(総リターン/総ベット)の計算用
     total_return = 0
     total_bet = 0
+
+    # 勝率の計算用
+    total_win_count = 0
+    total_lose_count = 0
     for initial_chip in ITITIAL_TIP_LIST:
         max_balance_list = [] # 各回の最大残高を格納
 
@@ -24,7 +28,8 @@ def main():
                 game.player_turn()  # プレイヤーのターン
                 game.dealer_turn()  # ディーラーのターン
                 game.judge()        # 勝敗判定
-                game.pay_chip()     # 精算
+                total_bet += game.player.chip.bet # 通算ベット
+                total_return += game.pay_chip() # 精算
                 game.check_chip()   # 残高確認
                 game.ask_next_game()# 続行確認
                 game.check_deck()   # デッキの残枚数確認
@@ -33,18 +38,31 @@ def main():
             if MESSAGE_ON:
                 print("BlackJackを終了します")
                 print(f"{game.game_count}回ゲームをしました")
-
+            
+            # 勝利数と敗北数をカウント
+            total_win += game.win_count
+            total_lose += game.lose_count
+            
             max_balance_list.append(max(balance_history))
         
-        # # 結果をpickleで保存
-        with open(f'result/result_{BET_STRATEGY}_{ITERATION_NUM}_{initial_chip}.pkl', 'wb') as f:
-            pickle.dump([max_balance_list], f)
+        # 結果をpickleで保存
+        pickle.dump([max_balance_list], open(f'result/result_{BET_STRATEGY}_{ITERATION_NUM}_{initial_chip}.pkl', 'wb'))
             
         # 最大残高が、軍資金+TARGET_PROFITを超える割合
         ratio = len([i for i in max_balance_list if i > initial_chip + TARGET_PROFIT]) / len(max_balance_list)
         print(f"軍資金{initial_chip}で{TARGET_PROFIT}を稼ぐ割合: {ratio:3.0%}")
         with open(f'result/ititial_chip_analysis_{BET_STRATEGY}_{ITERATION_NUM}.txt', 'a') as f:
             f.write(f"軍資金{initial_chip}で{TARGET_PROFIT}を稼ぐ割合: {ratio:3.0%}\n")
+
+    # 還元率(総リターン/総ベット)の計算
+    pickle.dump([total_return, total_bet], open(f'result/return_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
+    return_rate = total_return / total_bet
+    print(f"還元率: {return_rate:3.0%}")
+
+    # 勝率の計算
+    pickle.dump([total_win_count, total_lose_count], open(f'result/win_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
+    win_rate = total_win_count / (total_win_count + total_lose_count)
+    print(f"勝率: {win_rate:3.0%}")
 
 
 
