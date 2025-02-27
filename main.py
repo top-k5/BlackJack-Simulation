@@ -40,9 +40,9 @@ def main():
                 print(f"{game.game_count}回ゲームをしました")
             
             # 勝利数と敗北数をカウント
-            total_win += game.win_count
-            total_lose += game.lose_count
-            
+            total_win_count += game.win_count
+            total_lose_count += game.lose_count
+
             max_balance_list.append(max(balance_history))
         
         # 結果をpickleで保存
