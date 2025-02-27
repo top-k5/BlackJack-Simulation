@@ -17,8 +17,8 @@ class Game:
     def start(self):
         self.deck.shuffle()
         self.game_mode = 1
-        self.player = Player(INITIAL_CHIP)
-        self.dealer = Dealer()
+        # self.player = Player(INITIAL_CHIP)
+        # self.dealer = Dealer()
         self.game_count = 0
 
     def reset_game(self):

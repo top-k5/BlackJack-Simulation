@@ -6,10 +6,14 @@ import pickle
 
 # 一定額(=TARGET_PROFIT)を稼ぐために必要な軍資金分析
 def main():
+    print(f'ゲーム回数: {ITERATION_NUM}')
+
+    # 還元率(総リターン/総ベット)を計算
+    total_return = 0
+    total_bet = 0
     for initial_chip in ITITIAL_TIP_LIST:
         max_balance_list = [] # 各回の最大残高を格納
 
-        print(f'ゲーム回数: {ITERATION_NUM}')
         for i in range(ITERATION_NUM): 
             game = Game(initial_chip=initial_chip)
             balance_history = [initial_chip]
