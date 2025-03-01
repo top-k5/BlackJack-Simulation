@@ -13,6 +13,7 @@ def main():
     print(f'ゲーム回数: {ITERATION_NUM}')
     print(f'初期ベット: {INITIAL_BET}')
     
+    # 
     # 還元率(総リターン/総ベット)の計算用
     total_return = 0
     total_bet = 0
