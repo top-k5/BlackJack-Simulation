@@ -3,9 +3,13 @@ from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, IT
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
+import sys
 
 # 一定額(=TARGET_PROFIT)を稼ぐために必要な軍資金分析
 def main():
+    # printの出力先をtxtファイルに再割り当てする
+    sys.stdout = open(f'result/print_output_{TARGET_PROFIT}_{INITIAL_BET}.txt', 'w')
+
     print(f'ゲーム回数: {ITERATION_NUM}')
     print(f'初期ベット: {INITIAL_BET}')
     
@@ -18,7 +22,7 @@ def main():
     total_lose_count = 0
     for initial_chip in ITITIAL_TIP_LIST:
         max_balance_list = [] # 各回の最大残高を格納
-
+        
         for i in range(ITERATION_NUM): 
             game = Game(initial_chip=initial_chip)
             balance_history = [initial_chip]
@@ -64,6 +68,12 @@ def main():
     pickle.dump([total_win_count, total_lose_count], open(f'result/win_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
     win_rate = total_win_count / (total_win_count + total_lose_count)
     print(f"勝率: {win_rate:3.2%}")
+
+    # 最後にprintの出力先を戻し、標準出力する
+    sys.stdout.close()
+    sys.stdout = sys.__stdout__
+    with open(f'result/print_output_{TARGET_PROFIT}_{INITIAL_BET}.txt', 'r') as f:
+        print(f.read())
 
 
 

@@ -10,7 +10,7 @@ INITIAL_BET = 15        # 初期ベット額
 ITITIAL_TIP_LIST = [500, 1000, 1500, 2000]
 CAN_SURRENDER = False  # サレンダーの可否
 
-ITERATION_NUM = 1000  # ゲーム回数
+ITERATION_NUM = 100  # ゲーム回数
 
 FIRST_MC_LIST = [5,10,15]
 
