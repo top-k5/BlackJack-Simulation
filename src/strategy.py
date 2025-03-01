@@ -1,5 +1,5 @@
 import random
-from src.config import INITIAL_BET, FIRST_MC_LIST
+from src.config import INITIAL_BET, FIRST_MC_LIST, CAN_SURRENDER
 
 def dealer_upcard_value(card):
     """
@@ -25,7 +25,7 @@ class Strategy:
                               player_total, 
                               dealer_up, 
                               is_soft_hand,
-                              can_surrender=False, 
+                              can_surrender=CAN_SURRENDER, 
                               first_action=True):
         """
         ベーシックストラテジーに基づいて行動を選択する。

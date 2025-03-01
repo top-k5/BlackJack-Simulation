@@ -1,5 +1,5 @@
 from src.game import Game
-from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT
+from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT, INITIAL_BET
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -7,7 +7,8 @@ import pickle
 # 一定額(=TARGET_PROFIT)を稼ぐために必要な軍資金分析
 def main():
     print(f'ゲーム回数: {ITERATION_NUM}')
-
+    print(f'初期ベット: {INITIAL_BET}')
+    
     # 還元率(総リターン/総ベット)の計算用
     total_return = 0
     total_bet = 0
@@ -57,12 +58,12 @@ def main():
     # 還元率(総リターン/総ベット)の計算
     pickle.dump([total_return, total_bet], open(f'result/return_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
     return_rate = total_return / total_bet
-    print(f"還元率: {return_rate:3.0%}")
+    print(f"還元率: {return_rate:3.2%}")
 
     # 勝率の計算
     pickle.dump([total_win_count, total_lose_count], open(f'result/win_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
     win_rate = total_win_count / (total_win_count + total_lose_count)
-    print(f"勝率: {win_rate:3.0%}")
+    print(f"勝率: {win_rate:3.2%}")
 
 
 
