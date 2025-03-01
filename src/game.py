@@ -4,12 +4,13 @@ from src.strategy import Strategy, dealer_upcard_value, get_bet_amount
 from src.config import INITIAL_CHIP, MINIMUM_BET, NUM_PLAYER, BET_STRATEGY, MESSAGE_ON
 
 class Game:
-    def __init__(self, initial_chip=INITIAL_CHIP):
+    def __init__(self, initial_chip=INITIAL_CHIP, initial_bet = 10):
         self.game_mode = 0   # 0: 開始待ち, 1: ゲーム中, 2: ゲーム終了
         self.deck = Deck()
         self.player = Player(initial_chip)
         self.dealer = Dealer()
         self.judgment = None    # 勝敗判定（1: 勝ち, -1: 負け, 0: 引分）
+        self.initial_bet = initial_bet
         self.win_count = 0
         self.lose_count = 0
         self.game_count = 0

@@ -6,11 +6,11 @@ IS_HUMAN = False     # 手動プレイか自動か
 MESSAGE_ON = False    # メッセージ表示
 
 BET_STRATEGY = 'mg'     # ベット戦略
-INITIAL_BET = 10, 15, 20        # 初期ベット額
+INITIAL_BET = [10, 15, 20]        # 初期ベット額
 ITITIAL_TIP_LIST = [500, 1000, 1500, 2000]
 CAN_SURRENDER = False  # サレンダーの可否
 
-ITERATION_NUM = 100  # ゲーム回数
+ITERATION_NUM = 2000  # ゲーム回数
 
 FIRST_MC_LIST = [5,10,15]
 

@@ -1,5 +1,5 @@
 import random
-from src.config import INITIAL_BET, FIRST_MC_LIST, CAN_SURRENDER
+from src.config import FIRST_MC_LIST, CAN_SURRENDER
 
 def dealer_upcard_value(card):
     """
@@ -135,7 +135,7 @@ class Strategy:
             else:
                 return 's'
             
-def get_bet_amount(balance, last_bet, last_judge, bet_strategy):
+def get_bet_amount(balance, last_bet, last_judge, bet_strategy, initial_bet):
     """
     引数のベット戦略に応じて次のベット額を返す。
     """
@@ -143,9 +143,9 @@ def get_bet_amount(balance, last_bet, last_judge, bet_strategy):
         if last_judge == -1:
             return min(last_bet*2, balance) # 負けたターンの次はベットを2倍にする(残高不足なら全額)
         elif last_judge == 1:
-            return INITIAL_BET # 買ったターンの次は初期ベット額
+            return initial_bet # 買ったターンの次は初期ベット額
         elif last_judge == None:
-            return INITIAL_BET
+            return initial_bet
         else:
             return min(last_bet, balance) # 引き分けの場合は前回と同じ額をベットする
     
@@ -160,7 +160,7 @@ def get_bet_amount(balance, last_bet, last_judge, bet_strategy):
                 mc_list = FIRST_MC_LIST
             return min(mc_list[0] + mc_list[-1], balance)
         elif last_judge == None:
-            return INITIAL_BET
+            return initial_bet
             
         else:
             return min(last_bet, balance)

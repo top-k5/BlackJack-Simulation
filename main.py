@@ -13,7 +13,7 @@ def main():
     print(f'ゲーム回数: {ITERATION_NUM}')
     print(f'初期ベット: {INITIAL_BET}')
     
-    # 
+    for 
     # 還元率(総リターン/総ベット)の計算用
     total_return = 0
     total_bet = 0
@@ -25,7 +25,7 @@ def main():
         max_balance_list = [] # 各回の最大残高を格納
         
         for i in range(ITERATION_NUM): 
-            game = Game(initial_chip=initial_chip)
+            game = Game(initial_chip=initial_chip, initial_bet=initial_bet)
             balance_history = [initial_chip]
             while game.game_mode == 1:
                 game.reset_game()   # 各種リセット
