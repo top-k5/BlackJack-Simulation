@@ -26,7 +26,7 @@ class Chip:
         """
         ブラックジャック時、ベット額の2.5倍を支払う
         """
-        self.balance += int(self.bet * 2.5)
+        self.balance += int(self.bet * 2.2)
 
 
     def pay_chip_lose(self):
