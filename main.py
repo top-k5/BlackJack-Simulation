@@ -1,19 +1,22 @@
 from src.game import Game
-from src.config import INITIAL_CHIP, MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT, INITIAL_BET
+from src.config import MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT_LIST, INITIAL_BET_LIST, CAN_SURRENDER
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 import sys
+import datetime
 
 # 一定額(=TARGET_PROFIT)を稼ぐために必要な軍資金分析
 def main():
     # printの出力先をtxtファイルに再割り当てする
-    sys.stdout = open(f'result/print_output_{TARGET_PROFIT}_{INITIAL_BET}.txt', 'w')
+
+    # 現在の時刻を取得（分まで）
+    current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M')
+    sys.stdout = open(f'result/print_output_{current_time}.txt', 'w')
 
     print(f'ゲーム回数: {ITERATION_NUM}')
-    print(f'初期ベット: {INITIAL_BET}')
-    
-    for 
+    print(f'サレンダー: {CAN_SURRENDER}')
+
     # 還元率(総リターン/総ベット)の計算用
     total_return = 0
     total_bet = 0
@@ -21,44 +24,56 @@ def main():
     # 勝率の計算用
     total_win_count = 0
     total_lose_count = 0
-    for initial_chip in ITITIAL_TIP_LIST:
-        max_balance_list = [] # 各回の最大残高を格納
+    
+    for initial_bet in INITIAL_BET_LIST:
         
-        for i in range(ITERATION_NUM): 
-            game = Game(initial_chip=initial_chip, initial_bet=initial_bet)
-            balance_history = [initial_chip]
-            while game.game_mode == 1:
-                game.reset_game()   # 各種リセット
-                game.bet()   # 賭け金を設定
-                game.deal()         # カードを配る
-                game.player_turn()  # プレイヤーのターン
-                game.dealer_turn()  # ディーラーのターン
-                game.judge()        # 勝敗判定
-                total_bet += game.player.chip.bet # 通算ベット
-                total_return += game.pay_chip() # 精算
-                game.check_chip()   # 残高確認
-                game.ask_next_game()# 続行確認
-                game.check_deck()   # デッキの残枚数確認
-                balance_history.append(game.player.chip.balance)
+        sys.stdout = open(f'result/print_output_{current_time}.txt', 'a')
+        print(f'初期ベット: {initial_bet}')
 
-            if MESSAGE_ON:
-                print("BlackJackを終了します")
-                print(f"{game.game_count}回ゲームをしました")
+        for initial_chip in ITITIAL_TIP_LIST:
+            print(f'\n軍資金: {initial_chip}')
+            max_balance_list = [] # 各回の最大残高を格納
             
-            # 勝利数と敗北数をカウント
-            total_win_count += game.win_count
-            total_lose_count += game.lose_count
+            for i in range(ITERATION_NUM): 
+                game = Game(initial_chip=initial_chip, initial_bet=initial_bet)
+                balance_history = [initial_chip]
+                while game.game_mode == 1:
+                    game.reset_game()   # 各種リセット
+                    game.bet()   # 賭け金を設定
+                    game.deal()         # カードを配る
+                    game.player_turn()  # プレイヤーのターン
+                    game.dealer_turn()  # ディーラーのターン
+                    game.judge()        # 勝敗判定
+                    total_bet += game.player.chip.bet # 通算ベット
+                    total_return += game.pay_chip() # 精算
+                    game.check_chip()   # 残高確認
+                    game.ask_next_game()# 続行確認
+                    game.check_deck()   # デッキの残枚数確認
+                    balance_history.append(game.player.chip.balance)
 
-            max_balance_list.append(max(balance_history))
+                if MESSAGE_ON:
+                    print("BlackJackを終了します")
+                    print(f"{game.game_count}回ゲームをしました")
+                
+                # 勝利数と敗北数をカウント
+                total_win_count += game.win_count
+                total_lose_count += game.lose_count
+
+                max_balance_list.append(max(balance_history))
+            
+            # 結果をpickleで保存
+            pickle.dump([max_balance_list], open(f'result/result_{BET_STRATEGY}_{ITERATION_NUM}_{initial_chip}.pkl', 'wb'))
+                
+            # 最大残高が、軍資金+TARGET_PROFITを超える割合
+            for target_profit in TARGET_PROFIT_LIST:
+                ratio = len([i for i in max_balance_list if i > initial_chip + target_profit]) / len(max_balance_list)
+                print(f"軍資金{initial_chip:4d}, 初期ベット{initial_bet:2d}で{target_profit:4d}を稼ぐ割合: {ratio:>3.1%}")
         
-        # 結果をpickleで保存
-        pickle.dump([max_balance_list], open(f'result/result_{BET_STRATEGY}_{ITERATION_NUM}_{initial_chip}.pkl', 'wb'))
-            
-        # 最大残高が、軍資金+TARGET_PROFITを超える割合
-        ratio = len([i for i in max_balance_list if i > initial_chip + TARGET_PROFIT]) / len(max_balance_list)
-        print(f"軍資金{initial_chip}で{TARGET_PROFIT}を稼ぐ割合: {ratio:3.0%}")
-        with open(f'result/ititial_chip_analysis_{BET_STRATEGY}_{ITERATION_NUM}.txt', 'a') as f:
-            f.write(f"軍資金{initial_chip}で{TARGET_PROFIT}を稼ぐ割合: {ratio:3.0%}\n")
+        # 最後にprintの出力先を戻し、標準出力する
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
+        with open(f'result/print_output_{current_time}.txt', 'r') as f:
+            print(f.read())
 
     # 還元率(総リターン/総ベット)の計算
     pickle.dump([total_return, total_bet], open(f'result/return_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
@@ -69,14 +84,6 @@ def main():
     pickle.dump([total_win_count, total_lose_count], open(f'result/win_rate_{BET_STRATEGY}_{ITERATION_NUM}.pkl', 'wb'))
     win_rate = total_win_count / (total_win_count + total_lose_count)
     print(f"勝率: {win_rate:3.2%}")
-
-    # 最後にprintの出力先を戻し、標準出力する
-    sys.stdout.close()
-    sys.stdout = sys.__stdout__
-    with open(f'result/print_output_{TARGET_PROFIT}_{INITIAL_BET}.txt', 'r') as f:
-        print(f.read())
-
-
 
 # 利確ポイント分析
 # def main():

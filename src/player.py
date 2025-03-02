@@ -1,13 +1,13 @@
 from src.hand import Hand
-from src.config import INITIAL_CHIP, IS_HUMAN, INITIAL_BET
+from src.config import INITIAL_CHIP, IS_HUMAN
 
 class Chip:
     """
     チップ管理クラス
     """
-    def __init__(self, initial_chip=INITIAL_CHIP):
+    def __init__(self, initial_bet, initial_chip):
         self.balance = initial_chip
-        self.bet = INITIAL_BET
+        self.bet = initial_bet
 
     def bet_chip(self, bet):
         """
@@ -46,9 +46,9 @@ class Player:
     """
     プレイヤークラス
     """
-    def __init__(self, initial_chip=INITIAL_CHIP):
+    def __init__(self, initial_chip, initial_bet):
         self.hand = Hand()
-        self.chip = Chip(initial_chip)
+        self.chip = Chip(initial_chip=initial_chip, initial_bet=initial_bet)
         self.done = False         # ターン終了フラグ
         self.hit_flag = False     # 既にヒットしたかどうか
         self.is_human = IS_HUMAN      # True: 人間プレイヤー, False: 自動プレイヤー
