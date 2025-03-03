@@ -1,5 +1,5 @@
 from src.game import Game
-from src.config import MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT_LIST, INITIAL_BET_LIST, CAN_SURRENDER
+from src.config import MESSAGE_ON, ITERATION_NUM, BET_STRATEGY, ITITIAL_TIP_LIST, TARGET_PROFIT_LIST, INITIAL_BET_LIST, CAN_SURRENDER, BLACKJACK_PAY
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -16,6 +16,7 @@ def main():
 
     print(f'ゲーム回数: {ITERATION_NUM}')
     print(f'サレンダー: {CAN_SURRENDER}')
+    print(f'ブラックジャック時の配当:{BLACKJACK_PAY}倍')
 
     # 還元率(総リターン/総ベット)の計算用
     total_return = 0

@@ -1,5 +1,5 @@
 from src.hand import Hand
-from src.config import INITIAL_CHIP, IS_HUMAN
+from src.config import INITIAL_CHIP, IS_HUMAN, BLACKJACK_PAY
 
 class Chip:
     """
@@ -24,9 +24,9 @@ class Chip:
 
     def pay_chip_blackjack(self):
         """
-        ブラックジャック時、ベット額の2.5倍を支払う
+        ブラックジャック時のレート
         """
-        self.balance += int(self.bet * 2.2)
+        self.balance += int(self.bet * BLACKJACK_PAY)
 
 
     def pay_chip_lose(self):
